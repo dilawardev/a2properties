@@ -1,0 +1,41 @@
+name: Deploy React to cPanel (SFTP)
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Write version file
+        run: |
+          echo "commit=${GITHUB_SHA}" > dist/version.txt
+          echo "deployed_at=$(date -u)" >> dist/version.txt
+
+      - name: Upload dist to cPanel via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.CPANEL_HOST }}
+          username: ${{ secrets.CPANEL_USER }}
+          key: ${{ secrets.CPANEL_SSH_KEY }}
+          passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
+          source: "dist/*"
+          target: ${{ secrets.CPANEL_TARGET_DIR }}
+          strip_components: 1
