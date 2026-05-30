@@ -9,6 +9,7 @@ import React, {
 import UnlockAiMapModal from "../components/UnlockAiMapModal.jsx";
 import { request } from "../api/client.js";
 
+
 const STORAGE_KEY = "aiMapUnlocked";
 const STORAGE_CONTACT_KEY = "aiMapContact";
 
