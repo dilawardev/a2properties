@@ -18,7 +18,7 @@ const guest_routes = {
   "/": withGuestLayout(Home),
   "/home": withGuestLayout(Home),
   "/ai-map": withGuestLayout(AIMap),
-  about: withGuestLayout(About),
+  "/about": withGuestLayout(About),
   "/blog": withGuestLayout(BlogListings),
   "/blog/:slug": withGuestLayout(BlogDetail),
   "/contact-us": withGuestLayout(Contact),
