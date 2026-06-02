@@ -46,6 +46,24 @@ const ScrollToTop = ({ lenisRef }) => {
   return null;
 };
 
+const ParentRouteSync = () => {
+  const { pathname, search, hash } = useLocation();
+
+  useEffect(() => {
+    if (window.parent === window) return;
+
+    window.parent.postMessage(
+      {
+        type: 'A2PROP_ROUTE_CHANGE',
+        path: `${pathname}${search}${hash}`,
+      },
+      '*',
+    );
+  }, [hash, pathname, search]);
+
+  return null;
+};
+
 const generateRoutes = (prefix = '', routeGroup = {}) =>
   Object.entries(routeGroup).map(([path, Component]) => (
     <Route key={`${prefix}${path}`} path={`${prefix}${path}`} element={<Component />} />
@@ -66,6 +84,7 @@ function App() {
         <div className="">
           {isPreloaderEnabled && isLoading && <PageLoader onComplete={handleLoaderComplete} />}
           <Router>
+            <ParentRouteSync />
             <ScrollToTop lenisRef={lenisRef} />
             <Routes>
               {routes.map(({ prefix, routes }) => generateRoutes(prefix, routes))}
