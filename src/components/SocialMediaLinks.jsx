@@ -12,7 +12,7 @@ const socials = [
   {
     name: "YouTube",
     icon: "/assets/icons/Footer/youtube.svg",
-    href: "#youtube",
+    href: "https://www.youtube.com/@a2propertiesae",
   },
   {
     name: "Instagram",

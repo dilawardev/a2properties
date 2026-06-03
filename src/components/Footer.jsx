@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { submitGeneralLead } from "../api/leads.js";
 
@@ -76,9 +77,8 @@ const Footer = () => {
     {
       title: "Community",
       links: [
-        { label: "About Us", href: "/about-us" },
+        { label: "About Us", href: "/about" },
         { label: "Blog", href: "/blog" },
-        { label: "Brand kit", href: "/brand-kit" },
       ],
     },
     {
@@ -109,12 +109,12 @@ const Footer = () => {
                   <ul className="mt-4 space-y-3">
                     {col.links.map((l) => (
                       <li key={l.label}>
-                        <a
-                          href={l.href}
+                        <Link
+                          to={l.href}
                           className="text-sm text-white/80 transition hover:text-white"
                         >
                           {l.label}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -169,16 +169,28 @@ const Footer = () => {
                 className="h-5 w-5"
               />
             </a>
-            <img
-              src="/assets/icons/Footer/youtube.svg"
-              alt="YouTube"
-              className="h-5 w-5"
-            />
-            <img
-              src="/assets/icons/Footer/instagram.svg"
-              alt="Instagram"
-              className="h-5 w-5"
-            />
+            <a
+              href="https://www.youtube.com/@a2propertiesae"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/assets/icons/Footer/youtube.svg"
+                alt="YouTube"
+                className="h-5 w-5"
+              />
+            </a>
+            <a
+              href="https://www.instagram.com/a2properties.ae/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/assets/icons/Footer/instagram.svg"
+                alt="Instagram"
+                className="h-5 w-5"
+              />
+            </a>
           </div>
 
           {/* Google rating + Trustpilot */}
@@ -253,7 +265,7 @@ const Footer = () => {
           </div>
 
           {/* Right: form */}
-          <form className="space-y-6 max-w-md" onSubmit={onSubmit}>
+          <form id="newsletter" className="space-y-6 max-w-md scroll-mt-28" onSubmit={onSubmit}>
             <h3 className="text-xl font-semibold text-white">
               {t("sections.contact_heading")}
             </h3>

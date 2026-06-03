@@ -1,27 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import GlassSurface from "./GlassSurface.jsx";
 import { useTranslation } from "react-i18next";
+import NewsletterSubscribeModal from "./NewsletterSubscribeModal.jsx";
+import { submitNewsletterSubscription } from "../api/notifications.js";
 
 const cards = [
   {
     key: "community",
-    actions: [{ actionKey: "community_open_discord", href: "#discord" }],
+    actions: [
+      {
+        actionKey: "community_open_discord",
+        href: "https://linktr.ee/a2properties",
+        external: true,
+      },
+    ],
   },
   {
     key: "support",
     actions: [
-      { actionKey: "support_talk", href: "#support" },
-      { actionKey: "support_open_faqs", href: "#faqs" },
+      {
+        actionKey: "support_talk",
+        href: "https://wa.me/971588314825",
+        external: true,
+      },
+      { actionKey: "support_open_faqs", href: "/#faqs" },
     ],
   },
   {
     key: "newsletter",
-    actions: [{ actionKey: "newsletter_subscribe", href: "#subscribe" }],
+    actions: [{ actionKey: "newsletter_subscribe", modal: "newsletter" }],
   },
 ];
 
 const InvestorHighlights = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [newsletterOpen, setNewsletterOpen] = useState(false);
+
+  const handleNewsletterSubmit = (payload) => {
+    return submitNewsletterSubscription({
+      ...payload,
+      source: "investor_highlights_modal",
+      language: i18n?.language || "en",
+    });
+  };
 
   return (
     <section className="space-y-8">
@@ -49,20 +70,38 @@ const InvestorHighlights = () => {
                 {t(`sections.investor_cards.${card.key}_body`)}
               </p>
               <div className="flex flex-wrap gap-2 pt-2">
-                {card.actions.map((action) => (
-                  <a
-                    key={action.actionKey}
-                    href={action.href}
-                    className="px-3 py-2 text-xs rounded-md bg-white/10 border border-white/20 hover:border-white/40 transition-colors"
-                  >
-                    {t(`sections.investor_actions.${action.actionKey}`)}
-                  </a>
-                ))}
+                {card.actions.map((action) =>
+                  action.modal === "newsletter" ? (
+                    <button
+                      key={action.actionKey}
+                      type="button"
+                      onClick={() => setNewsletterOpen(true)}
+                      className="px-3 py-2 text-xs rounded-md bg-white/10 border border-white/20 hover:border-white/40 transition-colors"
+                    >
+                      {t(`sections.investor_actions.${action.actionKey}`)}
+                    </button>
+                  ) : (
+                    <a
+                      key={action.actionKey}
+                      href={action.href}
+                      target={action.external ? "_blank" : undefined}
+                      rel={action.external ? "noreferrer" : undefined}
+                      className="px-3 py-2 text-xs rounded-md bg-white/10 border border-white/20 hover:border-white/40 transition-colors"
+                    >
+                      {t(`sections.investor_actions.${action.actionKey}`)}
+                    </a>
+                  )
+                )}
               </div>
             </div>
           </GlassSurface>
         ))}
       </div>
+      <NewsletterSubscribeModal
+        open={newsletterOpen}
+        onClose={() => setNewsletterOpen(false)}
+        onSubmit={handleNewsletterSubmit}
+      />
     </section>
   );
 }

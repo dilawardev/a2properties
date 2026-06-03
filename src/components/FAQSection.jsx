@@ -48,7 +48,7 @@ const FAQSection = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="space-y-8">
+    <section id="faqs" className="space-y-8 scroll-mt-28">
       <div className="text-center space-y-2">
         <h2 className="text-4xl font-semibold text-white">
           {t("sections.faq_title")}
