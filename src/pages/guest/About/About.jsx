@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import CallbackRequestModal from "../../../components/CallbackRequestModal.jsx";
+import { submitCallbackRequest } from "../../../api/notifications.js";
 
 const stats = [
   { label: "Years of local expertise", value: "15+" },
@@ -29,15 +32,26 @@ const leadership = [
     blurb:
       "Steers A2 Properties with a focus on disciplined growth, transparent partnerships, and investor-first execution across Dubai’s prime districts.",
   },
-  {
-    name: "Aya Motaz Nachar",
-    title: "Managing Director",
-    blurb:
-      "Oversees daily operations and client delivery, ensuring every transaction runs with precision, speed, and white-glove service.",
-  },
 ];
 
 const About = () => {
+  const { i18n } = useTranslation();
+  const [callbackOpen, setCallbackOpen] = useState(false);
+  const [callbackPerson, setCallbackPerson] = useState("");
+
+  const openCallbackModal = (person = "") => {
+    setCallbackPerson(person);
+    setCallbackOpen(true);
+  };
+
+  const handleCallbackSubmit = (payload) => {
+    return submitCallbackRequest({
+      ...payload,
+      source: "about_leadership",
+      language: i18n?.language || "en",
+    });
+  };
+
   return (
     <div className="space-y-12">
       <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#141414] via-[#0f1013] to-[#090b0c] px-6 sm:px-10 py-12 sm:py-16 shadow-[0_30px_120px_rgba(0,0,0,0.45)]">
@@ -142,7 +156,7 @@ const About = () => {
         Meet with us
       </a>
       <a
-        href="/contact"
+        href="/contact-us"
         className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10 transition"
       >
         Contact page
@@ -201,18 +215,26 @@ const About = () => {
             >
               Email
             </a>
-            <a
-              href="/contact"
+            <button
+              type="button"
+              onClick={() => openCallbackModal(leader.name)}
               className="inline-flex items-center justify-center rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/15 transition"
             >
               Request a callback
-            </a>
+            </button>
           </div>
         </div>
       );
     })}
   </div>
 </section>
+
+      <CallbackRequestModal
+        open={callbackOpen}
+        onClose={() => setCallbackOpen(false)}
+        onSubmit={handleCallbackSubmit}
+        requestedPerson={callbackPerson}
+      />
 
     </div>
   );
