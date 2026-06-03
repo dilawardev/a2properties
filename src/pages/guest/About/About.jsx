@@ -47,7 +47,7 @@ const About = () => {
   const handleCallbackSubmit = (payload) => {
     return submitCallbackRequest({
       ...payload,
-      source: "about_leadership",
+      source: "About Leadership",
       language: i18n?.language || "en",
     });
   };
