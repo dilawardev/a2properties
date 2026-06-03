@@ -114,12 +114,12 @@ const EmbeddedProjectsMap = () => {
           )}
 
           <h3 className="text-2xl sm:text-3xl font-semibold text-white">
-            {isUnlocked ? "Open the live AI Map" : "Unlock the AI Map"}
+            {isUnlocked ? "Open the live AI Map" : "Request AI Map access"}
           </h3>
           <p className="mt-2 max-w-xl text-sm sm:text-base text-white/75">
             {isUnlocked
               ? "Jump straight into the live Dubai projects map."
-              : "Access live Dubai projects, pricing, and availability with one tap."}
+              : "Share your details and our team will contact you with live Dubai project insights."}
           </p>
 
           <button
@@ -132,7 +132,7 @@ const EmbeddedProjectsMap = () => {
                 : "bg-white text-[#111] hover:-translate-y-0.5",
             ].join(" ")}
           >
-            {isUnlocked ? "Go to AI Map" : "Unlock AI Map"}
+            {isUnlocked ? "Go to AI Map" : "Request Access"}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"

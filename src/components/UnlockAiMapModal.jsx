@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import * as Motion from "framer-motion";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
 const phoneRegex = /^[+]?[\d\s\-().]{7,}$/;
@@ -15,6 +15,7 @@ const UnlockAiMapModal = ({ open, onClose, onSubmit, initialData }) => {
   });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const dialogRef = useRef(null);
   const firstFieldRef = useRef(null);
@@ -29,6 +30,7 @@ const UnlockAiMapModal = ({ open, onClose, onSubmit, initialData }) => {
     });
     setErrors({});
     setSubmitting(false);
+    setSubmitSuccess(false);
 
     const timer = setTimeout(() => firstFieldRef.current?.focus(), 60);
     return () => clearTimeout(timer);
@@ -93,6 +95,7 @@ const UnlockAiMapModal = ({ open, onClose, onSubmit, initialData }) => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    setSubmitSuccess(false);
     const trimmed = value.trim();
     setErrors((prev) => {
       const next = { ...prev };
@@ -114,6 +117,7 @@ const UnlockAiMapModal = ({ open, onClose, onSubmit, initialData }) => {
         phone: form.phone.trim(),
         email: form.email.trim().toLowerCase(),
       });
+      setSubmitSuccess(true);
     } finally {
       setSubmitting(false);
     }
@@ -126,16 +130,16 @@ const UnlockAiMapModal = ({ open, onClose, onSubmit, initialData }) => {
   };
 
   return (
-    <AnimatePresence>
+    <Motion.AnimatePresence>
       {open && (
-        <motion.div
+        <Motion.motion.div
           className="fixed inset-0 z-[120] bg-black/60 backdrop-blur-sm flex items-center justify-center px-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={handleOverlayClick}
         >
-          <motion.div
+          <Motion.motion.div
             ref={dialogRef}
             role="dialog"
             aria-modal="true"
@@ -159,10 +163,10 @@ const UnlockAiMapModal = ({ open, onClose, onSubmit, initialData }) => {
                     id="unlock-ai-map-title"
                     className="text-2xl sm:text-3xl font-semibold text-white"
                   >
-                    Unlock the AI Map
+                    Request AI Map access
                   </h2>
                   <p className="text-sm text-white/65">
-                    Share your details to view live Dubai projects, pricing, and availability.
+                    Share your details and our team will contact you with the right project insights.
                   </p>
                 </div>
                 <button
@@ -184,92 +188,109 @@ const UnlockAiMapModal = ({ open, onClose, onSubmit, initialData }) => {
                 </button>
               </div>
 
-              <form className="space-y-4" onSubmit={handleSubmit}>
-                <div className="space-y-2">
-                  <label className="text-sm text-white/80" htmlFor="aiMapName">
-                    Full name
-                  </label>
-                  <input
-                    ref={firstFieldRef}
-                    id="aiMapName"
-                    name="name"
-                    type="text"
-                    className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/15"
-                    placeholder="Ayesha Rahman"
-                    value={form.name}
-                    onChange={handleChange}
-                  />
-                  {errors.name && <p className="text-sm text-rose-300">{errors.name}</p>}
-                </div>
-
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <label className="text-sm text-white/80" htmlFor="aiMapPhone">
-                      Phone number
-                    </label>
-                    <input
-                      id="aiMapPhone"
-                      name="phone"
-                      type="tel"
-                      className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/15"
-                      placeholder="+971 5x xxx xxxx"
-                      value={form.phone}
-                      onChange={handleChange}
-                    />
-                    {errors.phone && <p className="text-sm text-rose-300">{errors.phone}</p>}
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm text-white/80" htmlFor="aiMapEmail">
-                      Email
-                    </label>
-                    <input
-                      id="aiMapEmail"
-                      name="email"
-                      type="email"
-                      className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/15"
-                      placeholder="you@example.com"
-                      value={form.email}
-                      onChange={handleChange}
-                    />
-                    {errors.email && <p className="text-sm text-rose-300">{errors.email}</p>}
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={!isValid || submitting}
-                  className={[
-                    "w-full inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold",
-                    "text-[#111] bg-white",
-                    "transition-all duration-200",
-                    submitting || !isValid
-                      ? "opacity-70 cursor-not-allowed"
-                      : "hover:-translate-y-0.5 active:translate-y-0 hover:shadow-[0_18px_60px_rgba(255,255,255,0.25)]",
-                  ].join(" ")}
-                >
-                  {submitting ? "Submitting..." : "Unlock AI Map"}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
+              {submitSuccess ? (
+                <div className="rounded-2xl border border-[#7DF5CA]/30 bg-[#7DF5CA]/10 p-5 text-white">
+                  <p className="text-lg font-semibold">Request received</p>
+                  <p className="mt-2 text-sm leading-relaxed text-white/75">
+                    Thank you. Our team will contact you shortly with AI Map access details and
+                    suitable Dubai project options.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#111] transition-all hover:-translate-y-0.5 active:translate-y-0"
                   >
-                    <path
-                      d="M5 12h14M13 5l7 7-7 7"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                    Close
+                  </button>
+                </div>
+              ) : (
+                <form className="space-y-4" onSubmit={handleSubmit}>
+                  <div className="space-y-2">
+                    <label className="text-sm text-white/80" htmlFor="aiMapName">
+                      Full name
+                    </label>
+                    <input
+                      ref={firstFieldRef}
+                      id="aiMapName"
+                      name="name"
+                      type="text"
+                      className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/15"
+                      placeholder="Ayesha Rahman"
+                      value={form.name}
+                      onChange={handleChange}
                     />
-                  </svg>
-                </button>
-              </form>
+                    {errors.name && <p className="text-sm text-rose-300">{errors.name}</p>}
+                  </div>
+
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <label className="text-sm text-white/80" htmlFor="aiMapPhone">
+                        Phone number
+                      </label>
+                      <input
+                        id="aiMapPhone"
+                        name="phone"
+                        type="tel"
+                        className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/15"
+                        placeholder="+971 5x xxx xxxx"
+                        value={form.phone}
+                        onChange={handleChange}
+                      />
+                      {errors.phone && <p className="text-sm text-rose-300">{errors.phone}</p>}
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-sm text-white/80" htmlFor="aiMapEmail">
+                        Email
+                      </label>
+                      <input
+                        id="aiMapEmail"
+                        name="email"
+                        type="email"
+                        className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/15"
+                        placeholder="you@example.com"
+                        value={form.email}
+                        onChange={handleChange}
+                      />
+                      {errors.email && <p className="text-sm text-rose-300">{errors.email}</p>}
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={!isValid || submitting}
+                    className={[
+                      "w-full inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold",
+                      "text-[#111] bg-white",
+                      "transition-all duration-200",
+                      submitting || !isValid
+                        ? "opacity-70 cursor-not-allowed"
+                        : "hover:-translate-y-0.5 active:translate-y-0 hover:shadow-[0_18px_60px_rgba(255,255,255,0.25)]",
+                    ].join(" ")}
+                  >
+                    {submitting ? "Submitting..." : "Submit request"}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path
+                        d="M5 12h14M13 5l7 7-7 7"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+                </form>
+              )}
             </div>
-          </motion.div>
-        </motion.div>
+          </Motion.motion.div>
+        </Motion.motion.div>
       )}
-    </AnimatePresence>
+    </Motion.AnimatePresence>
   );
 };
 

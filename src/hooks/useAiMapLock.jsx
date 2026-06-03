@@ -3,7 +3,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import UnlockAiMapModal from "../components/UnlockAiMapModal.jsx";
@@ -14,15 +13,6 @@ const STORAGE_KEY = "aiMapUnlocked";
 const STORAGE_CONTACT_KEY = "aiMapContact";
 
 const AiMapLockContext = createContext(null);
-
-const readStoredFlag = () => {
-  if (typeof window === "undefined") return false;
-  try {
-    return window.localStorage.getItem(STORAGE_KEY) === "true";
-  } catch {
-    return false;
-  }
-};
 
 const readStoredContact = () => {
   if (typeof window === "undefined") return null;
@@ -35,16 +25,14 @@ const readStoredContact = () => {
 };
 
 export const AiMapLockProvider = ({ children }) => {
-  const [isUnlocked, setIsUnlocked] = useState(readStoredFlag);
+  const isUnlocked = false;
   const [contact, setContact] = useState(readStoredContact);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const successRef = useRef(null);
 
   const persist = useCallback((payload) => {
     if (typeof window === "undefined") return;
     try {
-      window.localStorage.setItem(STORAGE_KEY, "true");
+      window.localStorage.removeItem(STORAGE_KEY);
       if (payload) {
         window.localStorage.setItem(STORAGE_CONTACT_KEY, JSON.stringify(payload));
       }
@@ -53,14 +41,12 @@ export const AiMapLockProvider = ({ children }) => {
     }
   }, []);
 
-  const openUnlockModal = useCallback((onSuccess) => {
-    successRef.current = onSuccess || null;
+  const openUnlockModal = useCallback(() => {
     setIsModalOpen(true);
   }, []);
 
   const closeUnlockModal = useCallback(() => {
     setIsModalOpen(false);
-    successRef.current = null;
   }, []);
 
   const unlock = useCallback(
@@ -72,30 +58,25 @@ export const AiMapLockProvider = ({ children }) => {
           timeout: 8000,
         });
       } catch (err) {
-        // log to console but don't block unlock flow
+        // Log to console but do not block the callback request confirmation.
         console.warn("AI Map email send failed", err?.message || err);
       }
 
-      setIsUnlocked(true);
       setContact(payload);
       persist(payload);
-      setIsModalOpen(false);
-
-      const cb = successRef.current;
-      successRef.current = null;
-      if (typeof cb === "function") {
-        cb();
-      }
     },
     [persist],
   );
 
   useEffect(() => {
+    try {
+      window.localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // fail silently to avoid breaking UX
+    }
+
     // sync in case storage changes in another tab
     const handleStorage = (event) => {
-      if (event.key === STORAGE_KEY) {
-        setIsUnlocked(event.newValue === "true");
-      }
       if (event.key === STORAGE_CONTACT_KEY && event.newValue) {
         try {
           setContact(JSON.parse(event.newValue));
@@ -131,6 +112,7 @@ export const AiMapLockProvider = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAiMapLock = () => {
   const ctx = useContext(AiMapLockContext);
   if (!ctx) {

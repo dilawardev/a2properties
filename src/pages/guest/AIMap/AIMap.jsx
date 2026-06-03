@@ -70,11 +70,11 @@ const AIMapPage = () => {
           </div>
 
           <h1 className="relative text-3xl sm:text-4xl font-semibold">
-            Unlock the live Dubai AI Map
+            Request access to the live Dubai AI Map
           </h1>
           <p className="relative text-white/75 text-sm sm:text-base max-w-2xl mx-auto">
-            Share your details to view live availability, pricing, and developer info. Access unlocks
-            instantly and stays active on this device.
+            Share your details and our team will contact you with live availability, pricing, and
+            developer information.
           </p>
 
           <div className="relative">
@@ -83,7 +83,7 @@ const AIMapPage = () => {
               onClick={() => openUnlockModal(() => navigate("/ai-map"))}
               className="inline-flex items-center gap-2 rounded-full bg-white text-[#111] px-6 py-3 text-sm font-semibold transition-all hover:-translate-y-0.5 active:translate-y-0"
             >
-              Unlock AI Map
+              Request Access
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-4 w-4"
