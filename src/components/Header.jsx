@@ -643,32 +643,6 @@ const Header = () => {
                 </Link>
               </nav>
 
-              <div className="mb-6 grid grid-cols-3 gap-3">
-                <a
-                  href="https://wa.me/971588314825"
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center justify-center rounded-xl border border-emerald-400/40 bg-emerald-400/10 px-3 py-3 text-sm font-semibold text-emerald-100 transition-all hover:border-emerald-300/70 hover:bg-emerald-400/15 active:bg-emerald-400/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/60"
-                >
-                  {t("buttons.contact_whatsapp")}
-                </a>
-                <a
-                  href="mailto:info@a2properties.ae"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center justify-center rounded-xl border border-white/20 bg-white/5 px-3 py-3 text-sm font-semibold text-white transition-all hover:border-white/40 hover:bg-white/10 active:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-                >
-                  {t("buttons.contact_email")}
-                </a>
-                <a
-                  href="tel:+971588314825"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center justify-center rounded-xl border border-white/20 bg-white/5 px-3 py-3 text-sm font-semibold text-white transition-all hover:border-white/40 hover:bg-white/10 active:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-                >
-                  {t("sections.property_listings_call", "Call")}
-                </a>
-              </div>
-
               <button
                 onClick={() => setIsMenuOpen(false)}
                 className="w-full px-6 py-3 bg-[rgba(255,255,255,0.1)] backdrop-blur-md border border-white/20 rounded-xl text-white font-medium flex items-center justify-center gap-2 transition-all hover:bg-[rgba(255,255,255,0.15)] hover:border-white/30 hover:-translate-y-0.5 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
