@@ -336,15 +336,32 @@ const TrustedWorldwide = () => {
 
   return (
     <section className="space-y-6 sm:space-y-10">
-      <div className="relative mt-12 sm:mt-20 md:mt-[133px] rounded-2xl sm:rounded-3xl md:rounded-[32px] bg-gradient-to-br from-white/70 via-white/60 to-white/30 py-4 sm:py-6 md:py-10">
+      <div className="relative mt-12 sm:mt-20 md:mt-[133px] rounded-2xl sm:rounded-3xl md:rounded-[32px] py-4 sm:py-6 md:py-10">
+        <GlassSurface
+          width="100%"
+          height="100%"
+          borderRadius={32}
+          backgroundOpacity={0.36}
+          saturation={1.7}
+          opacity={0.95}
+          className="z-0 rounded-2xl sm:rounded-3xl md:rounded-[32px] border border-white/35 shadow-[0_24px_80px_rgba(15,23,42,0.18)] pointer-events-none"
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "rgba(255, 255, 255, 0.22)",
+            backdropFilter: "blur(18px) saturate(1.7)",
+            WebkitBackdropFilter: "blur(18px) saturate(1.7)",
+          }}
+        />
+
         {/* Globe */}
-        <div className="absolute left-1/2 top-[40%] w-[460px] h-[460px] sm:w-[420px] sm:h-[420px] md:w-[760px] md:h-[760px] lg:w-[720px] lg:h-[720px] -translate-y-1/2 -translate-x-1/2 pointer-events-auto">
+        <div className="absolute z-10 left-1/2 top-[40%] w-[460px] h-[460px] sm:w-[420px] sm:h-[420px] md:w-[760px] md:h-[760px] lg:w-[720px] lg:h-[720px] -translate-y-1/2 -translate-x-1/2 pointer-events-auto">
           <SpinningGlobe points={markets} active={activeMarket} />
           <div className="pointer-events-none absolute inset-0 rounded-full" />
         </div>
 
         {/* Text over globe */}
-        <div className="relative flex flex-col items-center text-center gap-2 sm:gap-4 py-6 sm:py-8 md:py-10 pointer-events-none">
+        <div className="relative z-20 flex flex-col items-center text-center gap-2 sm:gap-4 py-6 sm:py-8 md:py-10 pointer-events-none">
           <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold italic text-white drop-shadow-lg">
             {t("sections.trusted_worldwide_heading", { count: 300 })}
           </h3>
@@ -384,7 +401,7 @@ const TrustedWorldwide = () => {
         </div>
 
         {/* Slider + buttons */}
-        <div className="relative mt-4 pb-6" dir="ltr">
+        <div className="relative z-20 mt-4 pb-6" dir="ltr">
           <Swiper
             modules={[Navigation, Autoplay]}
             navigation={{ prevEl: prevRef.current, nextEl: nextRef.current }}
