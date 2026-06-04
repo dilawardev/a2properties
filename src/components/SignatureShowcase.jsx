@@ -52,7 +52,7 @@ const SignatureShowcase = () => {
           subtitle:
             "قسم عملائنا من أصحاب الثروات العالية والقطاع الخاص. تبدأ عروض سيغنتشر من AED 987,778.",
           viewProperty: "عرض العقار",
-          exploreMap: "استكشف الخريطة",
+          exploreMap: "استكشف المزيد",
           moreInsights: "مزيد من التفاصيل",
           byBrand: "by A2 Properties",
         }
@@ -62,7 +62,7 @@ const SignatureShowcase = () => {
           subtitle:
             "Our high-net-worth and private client division. Signature property listings starting from AED 987,778.",
           viewProperty: "View property",
-          exploreMap: "Explore map",
+          exploreMap: "Explore more",
           moreInsights: "More insights",
           byBrand: "by A2 Properties",
         };
@@ -160,7 +160,12 @@ const SignatureShowcase = () => {
       setError("");
 
       try {
-        const res = await getListings({ type: "NEW", page: 1, size: 6 });
+        const res = await getListings({
+          type: "SELL",
+          page: 1,
+          size: 4,
+          // fetchAll: true,
+        });
         if (cancelled) return;
 
         // ✅ DEBUG: raw API response
@@ -177,10 +182,7 @@ const SignatureShowcase = () => {
         // ✅ DEBUG: list length
         console.log("[SignatureShowcase] rawList length ->", rawList.length);
 
-        const mapped = rawList
-          .map(normalizeListing)
-          .filter(Boolean)
-          .slice(0, 4);
+        const mapped = rawList.map(normalizeListing).filter(Boolean);
 
         // ✅ DEBUG: mapped listings
         console.log("[SignatureShowcase] mapped listings ->", mapped);
@@ -226,8 +228,7 @@ const SignatureShowcase = () => {
     listings.find((item) => item.slug === featuredSlug) || listings[0];
 
   const compactCards = listings
-    .filter((item) => item.slug !== featured?.slug)
-    .slice(0, 3);
+    .filter((item) => item.slug !== featured?.slug);
 
   const sectionRef = useRef(null);
   const [renderMedia, setRenderMedia] = useState(false);

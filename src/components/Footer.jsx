@@ -377,6 +377,10 @@ const Footer = () => {
                 {t("sections.disclaimer_heading")}
               </h4>
 
+              <p>
+                {t("sections.disclaimer_body_intro")}
+              </p>
+
               <p className="font-semibold text-white/70">
                 {t("sections.disclaimer_simulated_title")}
               </p>
@@ -390,12 +394,6 @@ const Footer = () => {
               <p>
                 {t("sections.disclaimer_no_investment_body")}
               </p>
-
-              <ul className="list-disc space-y-1 pl-5">
-                <li>{t("sections.disclaimer_no_investment_list1")}</li>
-                <li>{t("sections.disclaimer_no_investment_list2")}</li>
-                <li>{t("sections.disclaimer_no_investment_list3")}</li>
-              </ul>
             </div>
 
             <div className="space-y-3">
@@ -413,8 +411,11 @@ const Footer = () => {
                 {t("sections.disclaimer_corporate_body")}
               </p>
 
+              <p className="font-semibold text-white/70">
+                {t("sections.disclaimer_regulatory_heading")}
+              </p>
               <p>
-                {t("sections.disclaimer_restrictions")}
+                {t("sections.disclaimer_regulatory_body")}
               </p>
 
               <p className="font-semibold text-white/70">

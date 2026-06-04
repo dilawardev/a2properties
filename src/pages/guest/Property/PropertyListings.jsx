@@ -7,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getListings } from "../../../api/listings.js";
 import {
@@ -21,7 +22,7 @@ const TYPE_OPTIONS = [
   {
     key: "NEW",
     labelKey: "sections.property_listings_tab_new",
-    fallback: "New",
+    fallback: "Off Plan",
   },
   {
     key: "RENT",
@@ -31,9 +32,11 @@ const TYPE_OPTIONS = [
   {
     key: "SELL",
     labelKey: "sections.property_listings_tab_sell",
-    fallback: "Sell",
+    fallback: "Buy",
   },
 ];
+
+const LISTING_TYPES = new Set(TYPE_OPTIONS.map((option) => option.key));
 
 const overlayMotion = {
   initial: { opacity: 0 },
@@ -418,6 +421,7 @@ const PaginationBar = ({
 
 const PropertyListings = () => {
   const { t } = useTranslation();
+  const location = useLocation();
   const tx = useCallback(
     (key, fallback) => t(key, { defaultValue: fallback ?? key }),
     [t],
@@ -472,6 +476,15 @@ const PropertyListings = () => {
     regionIds: undefined,
     communityIds: undefined,
   });
+
+  useEffect(() => {
+    const type = new URLSearchParams(location.search).get("type")?.toUpperCase();
+    if (!type || !LISTING_TYPES.has(type)) return;
+
+    setFilters((prev) =>
+      prev.type === type ? prev : { ...prev, type, page: 1 },
+    );
+  }, [location.search]);
 
   // Picker UI state
   const [developerSearch, setDeveloperSearch] = useState("");

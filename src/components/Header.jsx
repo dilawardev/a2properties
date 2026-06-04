@@ -12,6 +12,12 @@ const navItems = [
   { key: "about", href: "/about" },
 ];
 
+const projectLinks = [
+  { label: "Off Plan", href: "/properties?type=NEW" },
+  { label: "Buy", href: "/properties?type=SELL" },
+  { label: "Rent", href: "/properties?type=RENT" },
+];
+
 const NavLockBadge = ({ locked }) => (
   <span
     className={[
@@ -227,12 +233,54 @@ const Header = () => {
               const className =
                 "relative transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 rounded-md";
               const isAiMap = item.key === "ai_map";
+              const isProjects = item.key === "offplan";
               const label = (
                 <span className="flex items-center gap-2">
                   <span>{t(`nav.${item.key}`)}</span>
+                  {isProjects && (
+                    <svg
+                      className="h-3.5 w-3.5 text-white/60 transition-transform duration-200 group-hover:rotate-180 group-hover:text-white/90 group-focus-within:rotate-180 group-focus-within:text-white/90"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M5 7.5 10 12.5 15 7.5"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
                   {isAiMap && <NavLockBadge locked={!isAiMapUnlocked} />}
                 </span>
               );
+
+              if (isProjects) {
+                return (
+                  <div key={item.key} className="group relative py-2">
+                    <Link
+                      to={item.href}
+                      className={className}
+                      onClick={(event) => handleNavItemClick(event, item)}
+                    >
+                      {label}
+                    </Link>
+                    <div className="absolute left-1/2 top-full z-50 min-w-40 -translate-x-1/2 rounded-2xl border border-white/15 bg-black/90 p-2 opacity-0 shadow-[0_22px_80px_rgba(0,0,0,0.65)] backdrop-blur-xl transition-all duration-200 ease-out -translate-y-1 pointer-events-none group-hover:translate-y-0 group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100 group-focus-within:pointer-events-auto">
+                      {projectLinks.map((link) => (
+                        <Link
+                          key={link.href}
+                          to={link.href}
+                          className="block rounded-xl px-4 py-2.5 text-sm font-semibold text-white/80 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
 
               return item.external ? (
                 <a
@@ -510,6 +558,7 @@ const Header = () => {
               <nav className="space-y-2 mb-6">
                 {navItems.map((item) => {
                   const isAiMap = item.key === "ai_map";
+                  const isProjects = item.key === "offplan";
                   const label = (
                     <span className="flex items-center gap-2">
                       <span>{t(`nav.${item.key}`)}</span>
@@ -530,6 +579,33 @@ const Header = () => {
                     "group block px-4 py-3 text-white text-base font-medium rounded-xl transition-all hover:bg-white/10 active:bg-white/20 hover:-translate-y-0.5 active:translate-y-0";
                   const onClick = (event) =>
                     handleNavItemClick(event, item, () => setIsMenuOpen(false));
+
+                  if (isProjects) {
+                    return (
+                      <div key={item.key} className="rounded-xl bg-white/[0.03] p-2">
+                        <div className="px-2 pb-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/45">
+                          {t(`nav.${item.key}`)}
+                        </div>
+                        <div className="space-y-1">
+                          {projectLinks.map((link) => (
+                            <Link
+                              key={link.href}
+                              to={link.href}
+                              onClick={() => setIsMenuOpen(false)}
+                              className="group block rounded-lg px-3 py-2.5 text-white text-base font-medium transition-all hover:bg-white/10 active:bg-white/20"
+                            >
+                              <span className="flex items-center justify-between">
+                                <span>{link.label}</span>
+                                <span className="text-sm font-bold opacity-70 transition-all group-hover:opacity-100 group-hover:translate-x-1">
+                                  -&gt;
+                                </span>
+                              </span>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  }
 
                   return item.external ? (
                     <a

@@ -443,13 +443,15 @@ const TrustedWorldwide = () => {
                     width={250}
                     height="auto"
                     borderRadius={16}
-                    // backgroundOpacity={0.12}
+                    backgroundOpacity={0.2}
+                    saturation={1.5}
+                    opacity={0.95}
                     className={[
-                      "w-[250px] h-full",
-                      isActive ? "ring-2 ring-emerald-400/70 shadow-[0_0_18px_rgba(16,185,129,0.4)]" : "",
+                      "w-[250px] h-full border border-white/35",
+                      isActive ? "ring-2 ring-emerald-400/70 shadow-[0_0_18px_rgba(16,185,129,0.45)]" : "shadow-lg",
                     ].join(" ")}
                   >
-                    <div className="w-full h-full rounded-[inherit] px-4 py-3 sm:py-4 flex flex-col items-center justify-center bg-white/70 text-gray-900 border border-white/40 shadow-lg">
+                    <div className="w-full h-full rounded-[inherit] px-4 py-3 sm:py-4 flex flex-col items-center justify-center bg-white/10 text-white shadow-lg backdrop-blur-sm">
                       <div className="flex items-center justify-center gap-2 font-semibold mb-2 sm:mb-3">
                         <ReactCountryFlag
                           countryCode={item.code}
@@ -457,9 +459,9 @@ const TrustedWorldwide = () => {
                           title={displayName}
                           style={{ width: "1.5em", height: "1.5em", borderRadius: "0.125rem" }}
                         />
-                        <span className="text-sm sm:text-base">{displayName}</span>
+                        <span className="text-sm sm:text-base drop-shadow">{displayName}</span>
                       </div>
-                      <div className="text-xl self-center sm:text-2xl md:text-3xl font-semibold">
+                      <div className="text-xl self-center sm:text-2xl md:text-3xl font-semibold drop-shadow">
                         {displayAmount}
                       </div>
                     </div>
