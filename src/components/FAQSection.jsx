@@ -8,6 +8,10 @@ const faqs = [
   "faq_4",
   "faq_5",
   "faq_6",
+  "faq_7",
+  "faq_8",
+  "faq_9",
+  "faq_10",
 ];
 
 const FAQItem = ({ item, isOpen, onToggle, t }) => (
@@ -27,7 +31,6 @@ const FAQItem = ({ item, isOpen, onToggle, t }) => (
     </span>
 
     <div className="flex-1">
-      <p className="text-white">{item.q}</p>
       <p className="text-white">{t(`sections.faq_items.${item}.q`)}</p>
 
       {/* Animated answer area */}

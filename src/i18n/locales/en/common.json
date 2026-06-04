@@ -216,28 +216,44 @@
     "faq_subtitle": "Have a question? Here are the most frequently asked questions and their answers.",
     "faq_items": {
       "faq_1": {
-        "q": "Find projects tailored to your goals/budget in seconds",
-        "a": "Tell us your goals and budget and we will surface options instantly, so you can move forward confidently."
+        "q": "What makes A2 Properties different from other real estate agencies in Dubai?",
+        "a": "A2 Properties specializes in exclusive, off-market opportunities curated for discerning buyers. We prioritize privacy, market expertise, and end-to-end service — from acquisition to handover — ensuring every client experience is seamless and discreet."
       },
       "faq_2": {
-        "q": "How quickly can I get matched?",
-        "a": "Most users receive curated matches in under a minute after sharing a few preferences."
+        "q": "Do you specialize in specific areas or property types in Dubai?",
+        "a": "Yes. Our portfolio focuses on Dubai’s most prestigious communities, including Downtown Dubai, Palm Jumeirah, Dubai Hills Estate, Emirates Hills, and Emaar Beachfront. We cover luxury villas, penthouses, and select off-plan developments."
       },
       "faq_3": {
-        "q": "Do I need to commit right away?",
-        "a": "No. Explore as long as you like and shortlist favorites before engaging further."
+        "q": "Are your property listings exclusive to A2 Properties?",
+        "a": "Many of our properties are signature listings available exclusively through A2 Properties. These are curated specially for our buyers and are not publicly marketed, ensuring privacy and reduced competition."
       },
       "faq_4": {
-        "q": "Can I speak to a human?",
-        "a": "Absolutely. Our advisors are available 24/7 to answer questions and guide you."
+        "q": "How does A2 Properties help international buyers purchase property in Dubai?",
+        "a": "We provide full support for overseas clients, including virtual viewings, legal coordination, DLD guidance, mortgage advisory, and post-handover services. Our team manages the entire process so you can invest with confidence from anywhere in the world."
       },
       "faq_5": {
-        "q": "Is there a cost to get started?",
-        "a": "Browsing and shortlisting is free. Only pay when you move forward with a selection."
+        "q": "What is the process for buying an off-plan property through A2 Properties?",
+        "a": "We begin with a detailed consultation to match you with developer-approved projects. Once selected, we assist with reservation, SPA signing, DLD registration, and payment plan tracking. You’ll receive updates at every milestone until handover."
       },
       "faq_6": {
-        "q": "How fresh is your inventory?",
-        "a": "Listings are refreshed daily so you always see the latest availability and pricing."
+        "q": "Do you assist with mortgage pre-approval and financing options?",
+        "a": "Yes. We work with leading UAE banks and mortgage advisors to help you secure pre-approval, compare rates, and structure financing. Our team ensures your purchase aligns with both regulatory requirements and financial goals."
+      },
+      "faq_7": {
+        "q": "What services do you offer to property owners looking to sell or rent?",
+        "a": "We provide discreet marketing, professional photography, market valuation, tenant screening, and transaction management. For exclusive listings, we leverage our private buyer network to secure qualified offers efficiently."
+      },
+      "faq_8": {
+        "q": "How do you determine the market value of my property?",
+        "a": "Our valuations are based on RERA data, recent comparable transactions, community demand, and the unique features of your property. Every appraisal is conducted by a certified broker to ensure accuracy and market relevance."
+      },
+      "faq_9": {
+        "q": "What fees or commissions should I expect when working with A2 Properties?",
+        "a": "As per RERA guidelines, our commission is 2% of the sale price for purchases and 5% of annual rent for leasing, payable by the respective party. All fees are transparent and outlined in your Form A/B agreement before any commitment."
+      },
+      "faq_10": {
+        "q": "How can I schedule a private viewing of one of your exclusive listings?",
+        "a": "Contact our advisory team directly via phone, WhatsApp, or the enquiry form. Due to the private nature of our exclusive portfolio, all viewings are by appointment only and subject to buyer pre-qualification."
       }
     },
     "trusted_worldwide_heading": "{{count}}+ Agents",

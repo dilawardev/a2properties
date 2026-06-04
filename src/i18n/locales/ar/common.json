@@ -242,6 +242,22 @@
       "faq_6": {
         "q": "ما مدى حداثة قائمة العقارات؟",
         "a": "يتم تحديث قوائم العقارات بشكل مستمر لتظهر لك أحدث الأسعار والتوافر."
+      },
+      "faq_7": {
+        "q": "What services do you offer to property owners looking to sell or rent?",
+        "a": "We provide discreet marketing, professional photography, market valuation, tenant screening, and transaction management. For exclusive listings, we leverage our private buyer network to secure qualified offers efficiently."
+      },
+      "faq_8": {
+        "q": "How do you determine the market value of my property?",
+        "a": "Our valuations are based on RERA data, recent comparable transactions, community demand, and the unique features of your property. Every appraisal is conducted by a certified broker to ensure accuracy and market relevance."
+      },
+      "faq_9": {
+        "q": "What fees or commissions should I expect when working with A2 Properties?",
+        "a": "As per RERA guidelines, our commission is 2% of the sale price for purchases and 5% of annual rent for leasing, payable by the respective party. All fees are transparent and outlined in your Form A/B agreement before any commitment."
+      },
+      "faq_10": {
+        "q": "How can I schedule a private viewing of one of your exclusive listings?",
+        "a": "Contact our advisory team directly via phone, WhatsApp, or the enquiry form. Due to the private nature of our exclusive portfolio, all viewings are by appointment only and subject to buyer pre-qualification."
       }
     },
     "trusted_worldwide_heading": "{{count}}+ وكيل",

@@ -16,25 +16,43 @@ const UnlockAiMapModal = ({ open, onClose, onSubmit, initialData }) => {
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const dialogRef = useRef(null);
   const firstFieldRef = useRef(null);
+  const initialDataRef = useRef(initialData);
+  const closeTimerRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) {
+      initialDataRef.current = initialData;
+    }
+  }, [initialData, open]);
 
   useEffect(() => {
     if (!open) return;
 
-    setForm({
-      name: initialData?.name || "",
-      phone: initialData?.phone || "",
-      email: initialData?.email || "",
-    });
-    setErrors({});
-    setSubmitting(false);
-    setSubmitSuccess(false);
-
-    const timer = setTimeout(() => firstFieldRef.current?.focus(), 60);
-    return () => clearTimeout(timer);
-  }, [initialData, open]);
+    const timer = setTimeout(() => {
+      const storedInitialData = initialDataRef.current;
+      setForm({
+        name: storedInitialData?.name || "",
+        phone: storedInitialData?.phone || "",
+        email: storedInitialData?.email || "",
+      });
+      setErrors({});
+      setSubmitting(false);
+      setSubmitSuccess(false);
+      setSubmitError("");
+      firstFieldRef.current?.focus();
+    }, 60);
+    return () => {
+      clearTimeout(timer);
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -96,6 +114,7 @@ const UnlockAiMapModal = ({ open, onClose, onSubmit, initialData }) => {
     const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     setSubmitSuccess(false);
+    setSubmitError("");
     const trimmed = value.trim();
     setErrors((prev) => {
       const next = { ...prev };
@@ -110,14 +129,24 @@ const UnlockAiMapModal = ({ open, onClose, onSubmit, initialData }) => {
     event.preventDefault();
     if (!validate()) return;
 
+    const payload = {
+      name: form.name.trim(),
+      phone: form.phone.trim(),
+      email: form.email.trim().toLowerCase(),
+    };
+
     setSubmitting(true);
+    setSubmitError("");
+
     try {
-      await onSubmit?.({
-        name: form.name.trim(),
-        phone: form.phone.trim(),
-        email: form.email.trim().toLowerCase(),
-      });
+      await onSubmit?.(payload);
       setSubmitSuccess(true);
+      closeTimerRef.current = window.setTimeout(() => {
+        onClose?.();
+        closeTimerRef.current = null;
+      }, 1800);
+    } catch (error) {
+      setSubmitError(error?.message || "Unable to submit request. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -192,8 +221,7 @@ const UnlockAiMapModal = ({ open, onClose, onSubmit, initialData }) => {
                 <div className="rounded-2xl border border-[#7DF5CA]/30 bg-[#7DF5CA]/10 p-5 text-white">
                   <p className="text-lg font-semibold">Request received</p>
                   <p className="mt-2 text-sm leading-relaxed text-white/75">
-                    Thank you. Our team will contact you shortly with AI Map access details and
-                    suitable Dubai project options.
+                    Our team will contact you.
                   </p>
                   <button
                     type="button"
@@ -284,6 +312,9 @@ const UnlockAiMapModal = ({ open, onClose, onSubmit, initialData }) => {
                       />
                     </svg>
                   </button>
+                  {submitError ? (
+                    <p className="text-center text-sm text-rose-300">{submitError}</p>
+                  ) : null}
                 </form>
               )}
             </div>

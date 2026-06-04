@@ -7,7 +7,6 @@ import InvestmentEmpowerSection from "../../../components/AnimatedInvestmentEmpo
 import Partners from "../../../components/Partners.jsx";
 import FAQSection from "../../../components/FAQSection.jsx";
 import SocialMediaLinks from "../../../components/SocialMediaLinks.jsx";
-import InvestorHighlights from "../../../components/InvestorHighlights.jsx";
 import SignatureShowcase from "../../../components/SignatureShowcase.jsx";
 import EmbeddedProjectsMap from "../../../components/EmbeddedProjectsMap.jsx";
 import BlogSection from "../../../components/BlogSection.jsx";
@@ -29,7 +28,6 @@ const Home = () => {
       <BlogSection />
       <FAQSection />
       <SocialMediaLinks />
-      <InvestorHighlights />
     </div>
   );
 };

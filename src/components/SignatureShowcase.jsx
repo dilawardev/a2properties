@@ -60,7 +60,7 @@ const SignatureShowcase = () => {
           eyebrow: "SIGNATURE",
           title: "by A2 Properties",
           subtitle:
-            "Our high-net-worth and private client division. Signature property listings starting from AED 987,778.",
+            "An exclusive portfolio of signature properties, curated specially for our valued clientele.",
           viewProperty: "View property",
           exploreMap: "Explore more",
           moreInsights: "More insights",
@@ -397,9 +397,7 @@ const SignatureShowcase = () => {
             <p className="text-3xl font-semibold text-[#5ce7bf]">
               {featured.priceAED}
             </p>
-            <p className="max-w-xl text-2xl leading-relaxed text-white/70">
-              {copy.subtitle}
-            </p>
+  
 
             <div className="flex flex-wrap gap-3 pt-2">
               <Link

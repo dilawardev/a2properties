@@ -51,16 +51,11 @@ export const AiMapLockProvider = ({ children }) => {
 
   const unlock = useCallback(
     async (payload) => {
-      try {
-        await request("/api/v1/notifications/ai-map", {
-          method: "POST",
-          body: payload,
-          timeout: 8000,
-        });
-      } catch (err) {
-        // Log to console but do not block the callback request confirmation.
-        console.warn("AI Map email send failed", err?.message || err);
-      }
+      await request("/api/v1/notifications/ai-map", {
+        method: "POST",
+        body: payload,
+        timeout: 8000,
+      });
 
       setContact(payload);
       persist(payload);
