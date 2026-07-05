@@ -18,7 +18,7 @@ const GradientButton = ({ children, href = "#", to, className = "", ...rest }) =
   return (
     <Component
       {...linkProps}
-      className={`inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-semibold text-[#111] shadow-sm transition-transform duration-150 active:scale-95 ${className}`}
+      className={`inline-flex items-center justify-center px-5 py-2.5 rounded-full text-[15px] font-semibold leading-none text-[#111] shadow-sm transition-transform duration-150 active:scale-95 md:text-base ${className}`}
       style={{ background: gradient }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}

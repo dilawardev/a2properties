@@ -32,6 +32,39 @@ const reels = [
   },
 ];
 
+const socialLinks = [
+  {
+    name: "LinkedIn",
+    icon: "/assets/icons/Footer/linkedin.svg",
+    href: "https://www.linkedin.com/company/a2properties",
+  },
+  {
+    name: "Facebook",
+    icon: "/assets/icons/Footer/facebook.svg",
+    href: "https://www.facebook.com/a2propeties.ae",
+  },
+  {
+    name: "TikTok",
+    icon: "/assets/icons/Footer/tiktok.svg",
+    href: "https://www.tiktok.com/@a2properties.ae",
+  },
+  {
+    name: "YouTube",
+    icon: "/assets/icons/Footer/youtube.svg",
+    href: "https://www.youtube.com/@a2propertiesae",
+  },
+  {
+    name: "Instagram",
+    icon: "/assets/icons/Footer/instagram.svg",
+    href: "https://www.instagram.com/a2properties.ae/",
+  },
+  {
+    name: "Linktree",
+    icon: "/assets/icons/Footer/linktree.svg",
+    href: "https://linktr.ee/a2properties",
+  },
+];
+
 const MuteIcon = ({ className = "h-5 w-5" }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -324,6 +357,26 @@ const LatestWorks = () => {
           <p className="text-gray-300">
             {t("sections.latest_works_subtitle")}
           </p>
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
+            {socialLinks.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={t("sections.social_follow_on", { name: item.name })}
+                title={item.name}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/5 transition hover:-translate-y-0.5 hover:border-white/35 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+              >
+                <img
+                  src={item.icon}
+                  alt=""
+                  className="h-5 w-5"
+                  loading="lazy"
+                />
+              </a>
+            ))}
+          </div>
         </div>
 
         <div className="relative">

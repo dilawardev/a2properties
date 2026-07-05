@@ -191,6 +191,17 @@ const Footer = () => {
                 className="h-5 w-5"
               />
             </a>
+            <a
+              href="https://linktr.ee/a2properties"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/assets/icons/Footer/linktree.svg"
+                alt="Linktree"
+                className="h-5 w-5"
+              />
+            </a>
           </div>
 
           {/* Google rating + Trustpilot */}
@@ -213,17 +224,6 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="hidden h-8 w-px bg-white/20 md:block" />
-
-            <a
-              href="#"
-              className="inline-flex items-center rounded-tl-[4px] rounded-bl-[4px]   bg-[#048117] pl-3  text-xs font-normal text-white shadow-sm"
-            >
-              Trustpilot
-              <span className="ml-2 rounded-tr-[4px] rounded-br-[4px]    bg-white text-black px-2 py-2 text-[10px]">
-                35.4k reviews
-              </span>
-            </a>
           </div>
         </div>
 

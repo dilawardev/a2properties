@@ -96,7 +96,9 @@ export const LogoLoop = React.memo<LogoLoopProps>(function LogoLoop({
   style,
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const seqRef = useRef<HTMLUListElement>(null);
+  const dragStartRef = useRef({ x: 0, offset: 0 });
 
   const safeLogos = useMemo(() => (Array.isArray(logos) ? logos.filter(Boolean) : []), [logos]);
   const reducedMotion = usePrefersReducedMotion();
@@ -107,6 +109,8 @@ export const LogoLoop = React.memo<LogoLoopProps>(function LogoLoop({
   const [copyCount, setCopyCount] = useState(2);
   const [hovered, setHovered] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [isInteracting, setIsInteracting] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
 
   const gapValue = useMemo(() => `${gap}px`, [gap]);
 
@@ -131,6 +135,7 @@ export const LogoLoop = React.memo<LogoLoopProps>(function LogoLoop({
     () =>
       cx(
         "relative overflow-x-hidden group",
+        "cursor-grab active:cursor-grabbing touch-pan-y",
         "[--logoloop-gap:32px]",
         "[--logoloop-logoHeight:28px]",
         "[--logoloop-fadeColorAuto:#ffffff]",
@@ -144,10 +149,16 @@ export const LogoLoop = React.memo<LogoLoopProps>(function LogoLoop({
   const containerStyle = useMemo(
     (): React.CSSProperties => ({
       width: toCssLength(width) ?? "100%",
+      ...(fadeOut && {
+        WebkitMaskImage:
+          "linear-gradient(to right, transparent 0, black clamp(36px, 9%, 140px), black calc(100% - clamp(36px, 9%, 140px)), transparent 100%)",
+        maskImage:
+          "linear-gradient(to right, transparent 0, black clamp(36px, 9%, 140px), black calc(100% - clamp(36px, 9%, 140px)), transparent 100%)",
+      }),
       ...cssVariables,
       ...style,
     }),
-    [width, cssVariables, style]
+    [width, fadeOut, cssVariables, style]
   );
 
   // Track hover for pause
@@ -157,6 +168,58 @@ export const LogoLoop = React.memo<LogoLoopProps>(function LogoLoop({
   const handleMouseLeave = useCallback(() => {
     if (pauseOnHover) setHovered(false);
   }, [pauseOnHover]);
+
+  const readTrackOffset = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return 0;
+
+    const transform = window.getComputedStyle(track).transform;
+    if (!transform || transform === "none") return 0;
+
+    try {
+      return new DOMMatrixReadOnly(transform).m41;
+    } catch {
+      return 0;
+    }
+  }, []);
+
+  const handlePointerDown = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      if (event.button !== 0) return;
+
+      setIsInteracting(true);
+      const offset = readTrackOffset();
+      dragStartRef.current = { x: event.clientX, offset };
+      setDragOffset(offset);
+      event.currentTarget.setPointerCapture(event.pointerId);
+    },
+    [readTrackOffset]
+  );
+
+  const handlePointerMove = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      if (!isInteracting || seqWidth <= 0) return;
+
+      const delta = event.clientX - dragStartRef.current.x;
+      const rawOffset = dragStartRef.current.offset + delta;
+      const wrappedOffset = ((rawOffset % seqWidth) + seqWidth) % seqWidth;
+      setDragOffset(wrappedOffset - seqWidth);
+    },
+    [isInteracting, seqWidth]
+  );
+
+  const handlePointerUp = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    setIsInteracting(false);
+    setDragOffset(0);
+  }, []);
+
+  const handlePointerLeave = useCallback(() => {
+    setIsInteracting(false);
+    setDragOffset(0);
+  }, []);
 
   // Wait for images (first sequence only) so measurements are correct
   useEffect(() => {
@@ -252,7 +315,8 @@ export const LogoLoop = React.memo<LogoLoopProps>(function LogoLoop({
     inView &&
     !reducedMotion &&
     absSpeed > 0 &&
-    !(pauseOnHover && hovered);
+    !(pauseOnHover && hovered) &&
+    !isInteracting;
 
   const renderLogoItem = useCallback(
     (item: LogoItem, key: React.Key) => {
@@ -261,6 +325,7 @@ export const LogoLoop = React.memo<LogoLoopProps>(function LogoLoop({
           <span
             className={cx(
               "inline-flex items-center",
+              "select-none [-webkit-user-drag:none]",
               "motion-reduce:transition-none",
               scaleOnHover &&
                 "transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/item:scale-110"
@@ -389,6 +454,11 @@ export const LogoLoop = React.memo<LogoLoopProps>(function LogoLoop({
       aria-label={ariaLabel}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerLeave}
+      onPointerLeave={handlePointerLeave}
     >
       {/* Marquee keyframes: always travel exactly one sequence width. */}
       <style>{`
@@ -398,28 +468,8 @@ export const LogoLoop = React.memo<LogoLoopProps>(function LogoLoop({
         }
       `}</style>
 
-      {fadeOut && (
-        <>
-          <div
-            aria-hidden
-            className={cx(
-              "pointer-events-none absolute inset-y-0 left-0 z-[1]",
-              "w-[clamp(24px,8%,120px)]",
-              "bg-[linear-gradient(to_right,var(--logoloop-fadeColor,var(--logoloop-fadeColorAuto))_0%,rgba(0,0,0,0)_100%)]"
-            )}
-          />
-          <div
-            aria-hidden
-            className={cx(
-              "pointer-events-none absolute inset-y-0 right-0 z-[1]",
-              "w-[clamp(24px,8%,120px)]",
-              "bg-[linear-gradient(to_left,var(--logoloop-fadeColor,var(--logoloop-fadeColorAuto))_0%,rgba(0,0,0,0)_100%)]"
-            )}
-          />
-        </>
-      )}
-
       <div
+        ref={trackRef}
         className={cx(
           "flex w-max will-change-transform select-none",
           // optional modern perf: avoids painting/layout work offscreen
@@ -432,6 +482,7 @@ export const LogoLoop = React.memo<LogoLoopProps>(function LogoLoop({
           animationIterationCount: "infinite",
           animationDirection: direction === "left" ? "normal" : "reverse",
           animationPlayState: pauseOnHover && hovered ? "paused" : "running",
+          transform: isInteracting ? `translate3d(${dragOffset}px,0,0)` : undefined,
         }}
       >
         {Array.from({ length: copyCount }, (_, copyIndex) => (

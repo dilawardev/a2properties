@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import UnlockAiMapModal from "../components/UnlockAiMapModal.jsx";
@@ -13,6 +14,11 @@ const STORAGE_KEY = "aiMapUnlocked";
 const STORAGE_CONTACT_KEY = "aiMapContact";
 
 const AiMapLockContext = createContext(null);
+
+const readStoredUnlocked = () => {
+  if (typeof window === "undefined") return false;
+  return window.localStorage.getItem(STORAGE_KEY) === "true";
+};
 
 const readStoredContact = () => {
   if (typeof window === "undefined") return null;
@@ -25,14 +31,15 @@ const readStoredContact = () => {
 };
 
 export const AiMapLockProvider = ({ children }) => {
-  const isUnlocked = false;
+  const [isUnlocked, setIsUnlocked] = useState(readStoredUnlocked);
   const [contact, setContact] = useState(readStoredContact);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const afterUnlockRef = useRef(null);
 
   const persist = useCallback((payload) => {
     if (typeof window === "undefined") return;
     try {
-      window.localStorage.removeItem(STORAGE_KEY);
+      window.localStorage.setItem(STORAGE_KEY, "true");
       if (payload) {
         window.localStorage.setItem(STORAGE_CONTACT_KEY, JSON.stringify(payload));
       }
@@ -41,7 +48,8 @@ export const AiMapLockProvider = ({ children }) => {
     }
   }, []);
 
-  const openUnlockModal = useCallback(() => {
+  const openUnlockModal = useCallback((afterUnlock) => {
+    afterUnlockRef.current = typeof afterUnlock === "function" ? afterUnlock : null;
     setIsModalOpen(true);
   }, []);
 
@@ -51,27 +59,33 @@ export const AiMapLockProvider = ({ children }) => {
 
   const unlock = useCallback(
     async (payload) => {
-      await request("/api/v1/notifications/ai-map", {
-        method: "POST",
-        body: payload,
-        timeout: 8000,
-      });
+      try {
+        await request("/api/v1/notifications/ai-map", {
+          method: "POST",
+          body: payload,
+          timeout: 8000,
+        });
+      } catch {
+        // Mail delivery is currently unreliable; access should still unlock after valid details.
+      }
 
       setContact(payload);
+      setIsUnlocked(true);
       persist(payload);
+
+      const afterUnlock = afterUnlockRef.current;
+      afterUnlockRef.current = null;
+      afterUnlock?.();
     },
     [persist],
   );
 
   useEffect(() => {
-    try {
-      window.localStorage.removeItem(STORAGE_KEY);
-    } catch {
-      // fail silently to avoid breaking UX
-    }
-
     // sync in case storage changes in another tab
     const handleStorage = (event) => {
+      if (event.key === STORAGE_KEY) {
+        setIsUnlocked(event.newValue === "true");
+      }
       if (event.key === STORAGE_CONTACT_KEY && event.newValue) {
         try {
           setContact(JSON.parse(event.newValue));

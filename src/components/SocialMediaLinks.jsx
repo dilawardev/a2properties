@@ -19,6 +19,11 @@ const socials = [
     icon: "/assets/icons/Footer/instagram.svg",
     href: "https://www.instagram.com/a2properties.ae/",
   },
+  {
+    name: "Linktree",
+    icon: "/assets/icons/Footer/linktree.svg",
+    href: "https://linktr.ee/a2properties",
+  },
   
   
 ];

@@ -17,7 +17,6 @@ const Home = () => {
     <div className="space-y-16">
       <Hero />
       <WhyChooseUs />
-      <TrustedWorldwide />
       <AIFeaturesSection />
       <EmbeddedProjectsMap />
       <Partners />

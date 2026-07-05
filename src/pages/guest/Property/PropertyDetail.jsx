@@ -403,23 +403,6 @@ const PropertyDetail = () => {
         <div className="space-y-3 px-1">
           <p className="text-sm text-white/60">{locationText}</p>
           <h1 className="text-3xl font-bold leading-tight">{property.title}</h1>
-          <div className="flex flex-wrap gap-3 text-sm text-white/80">
-            {property.priceAED ? (
-              <span className="rounded-full bg-white/10 border border-white/20 px-3 py-1">
-                {formatCurrency(property.priceAED)}
-              </span>
-            ) : null}
-            {property.status ? (
-              <span className="rounded-full bg-white/10 border border-white/20 px-3 py-1">
-                {property.status}
-              </span>
-            ) : null}
-            {property.type ? (
-              <span className="rounded-full bg-white/10 border border-white/20 px-3 py-1">
-                {property.type}
-              </span>
-            ) : null}
-          </div>
         </div>
       </div>
 

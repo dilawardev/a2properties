@@ -90,9 +90,6 @@ const ClientTestimonials = () => {
       className="w-full text-white pt-12 pb-16 sm:pt-16 sm:pb-24"
     >
       <div className="space-y-3 sm:space-y-4 max-w-3xl">
-        <span className="inline-flex w-fit items-center rounded-full border border-white/10 bg-white/5 px-4 py-1 text-[11px] uppercase tracking-[0.28em] text-white/70">
-          {t("nav.testimonials")}
-        </span>
         <h2 className="text-3xl sm:text-4xl md:text-[44px] font-semibold leading-tight tracking-tight">
           {t("sections.testimonials_title")}
         </h2>
@@ -192,14 +189,6 @@ const ClientTestimonials = () => {
             </button>
           </div>
 
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 48 48"
-            className="testimonial-quote-icon"
-            aria-hidden="true"
-          >
-            <path d="M15 11h-4a5 5 0 00-5 5v7a5 5 0 005 5h.4L8.2 34.8a1.5 1.5 0 001.6 2.2L16 35l3-7.2V16a5 5 0 00-5-5zm22 0h-4a5 5 0 00-5 5v7a5 5 0 005 5h.4l-3.2 6.8a1.5 1.5 0 001.6 2.2L38 35l3-7.2V16a5 5 0 00-5-5z" />
-          </svg>
         </div>
     </section>
   );

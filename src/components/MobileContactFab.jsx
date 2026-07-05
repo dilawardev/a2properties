@@ -48,6 +48,7 @@ const contactActions = [
 const MobileContactFab = () => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrollTopVisible, setIsScrollTopVisible] = useState(false);
   const rootRef = useRef(null);
 
   useEffect(() => {
@@ -63,9 +64,25 @@ const MobileContactFab = () => {
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [isOpen]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrollTopVisible(document.documentElement.scrollTop > 200);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div ref={rootRef} className="fixed bottom-24 right-6 z-50 hidden max-[819px]:block">
-      <div className="absolute bottom-16 right-0 flex flex-col items-end gap-2">
+    <div
+      ref={rootRef}
+      className={[
+        "fixed right-6 z-50 max-[819px]:bottom-24 max-[819px]:block transition-[bottom] duration-300",
+        isScrollTopVisible ? "min-[820px]:bottom-24" : "min-[820px]:bottom-6",
+      ].join(" ")}
+    >
+      <div className="absolute bottom-16 right-0 flex flex-col items-end gap-2 min-[820px]:static">
         {contactActions.map((action, index) => (
           <a
             key={action.key}
@@ -82,6 +99,7 @@ const MobileContactFab = () => {
               isOpen
                 ? "translate-y-0 scale-100 opacity-100 pointer-events-auto"
                 : "translate-y-3 scale-90 opacity-0 pointer-events-none",
+              "min-[820px]:translate-y-0 min-[820px]:scale-100 min-[820px]:opacity-100 min-[820px]:pointer-events-auto",
             ].join(" ")}
             style={{ transitionDelay: isOpen ? `${index * 70}ms` : "0ms" }}
           >
@@ -100,6 +118,7 @@ const MobileContactFab = () => {
           "grid h-12 w-12 place-items-center rounded-full border border-white/20 bg-black/75 text-white backdrop-blur-md",
           "shadow-[0_14px_40px_rgba(0,0,0,0.5)] transition-all duration-300",
           "hover:bg-black/85 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40",
+          "min-[820px]:hidden",
         ].join(" ")}
       >
         <svg

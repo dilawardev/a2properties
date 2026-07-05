@@ -372,7 +372,7 @@ const InvestmentEmpowerSection = () => {
                   />
 
                   <span
-                    className="relative text-white italic font-semibold leading-tight text-[30px] sm:text-[40px] md:text-[50px] lg:text-[60px]"
+                    className="relative text-white not-italic font-semibold leading-tight text-[30px] sm:text-[40px] md:text-[50px] lg:text-[60px]"
                     style={{
                       textShadow:
                         "0 0 10px rgba(255,255,255,0.35), 0 0 28px rgba(120,140,255,0.5), 0 0 70px rgba(0,180,255,0.35)",

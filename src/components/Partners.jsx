@@ -42,24 +42,21 @@ const Partners = () => {
   const { t } = useTranslation();
   const logos = useMemo(
     () =>
-      Array.from({ length: 12 }, (_, idx) => {
-        const partner = basePartners[idx % basePartners.length];
-        return {
+      basePartners.map((partner) => ({
           node: (
-            <GlassSurface
-            height={130}
-            width={130}
-            >
+            <GlassSurface height={130} width={130} borderRadius={24} quality="lite">
               <img
                 src={partner.src}
                 alt={partner.name}
-                className="h-[100px] w-[100px] object-contain"
+                className="h-[100px] w-[100px] select-none object-contain [-webkit-user-drag:none]"
+                loading="lazy"
+                decoding="async"
+                draggable={false}
               />
             </GlassSurface>
           ),
           title: partner.name,
-        };
-      }),
+        })),
     []
   );
 
@@ -80,7 +77,7 @@ const Partners = () => {
           gap={90}
           pauseOnHover={false}
           fadeOut
-          scaleOnHover={true}
+          scaleOnHover={false}
           ariaLabel={t("sections.partners_aria_label")}
           width="100%"
           className="w-full"

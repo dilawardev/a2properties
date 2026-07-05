@@ -362,7 +362,7 @@ const TrustedWorldwide = () => {
 
         {/* Text over globe */}
         <div className="relative z-20 flex flex-col items-center text-center gap-2 sm:gap-4 py-6 sm:py-8 md:py-10 pointer-events-none">
-          <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold italic text-white drop-shadow-lg">
+          <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold not-italic text-white drop-shadow-lg">
             {t("sections.trusted_worldwide_heading", { count: 300 })}
           </h3>
           <p className="text-sm sm:text-base md:text-lg text-white font-semibold drop-shadow px-2">

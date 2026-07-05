@@ -75,16 +75,11 @@ const ListingCard = ({ item, tx }) => {
       </div>
 
       <div className="p-5 space-y-3 flex-1">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <p className="text-xs text-white/60 uppercase tracking-wide">{item.location}</p>
-            <h3 className="text-xl font-semibold text-white leading-tight line-clamp-2">
-              {item.title}
-            </h3>
-          </div>
-          <p className="text-sm font-semibold text-white/80">
-            {item.priceAED ? formatCurrency(item.priceAED) : ""}
-          </p>
+        <div>
+          <p className="text-xs text-white/60 uppercase tracking-wide">{item.location}</p>
+          <h3 className="text-xl font-semibold text-white leading-tight line-clamp-2">
+            {item.title}
+          </h3>
         </div>
 
         <p className="text-lg font-bold text-white">

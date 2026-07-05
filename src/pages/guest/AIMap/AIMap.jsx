@@ -1,25 +1,34 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import GradientButton from "../../../components/GradientButton.jsx";
 import { useAiMapLock } from "../../../hooks/useAiMapLock.jsx";
 
 const AIMapPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { isUnlocked, openUnlockModal } = useAiMapLock();
   const hasPromptedRef = useRef(false);
+  const [showAccessSuccess, setShowAccessSuccess] = useState(false);
 
   useEffect(() => {
     if (!isUnlocked && !hasPromptedRef.current) {
       hasPromptedRef.current = true;
-      openUnlockModal(() => navigate("/ai-map"));
+      openUnlockModal(() => navigate("/ai-map", { state: { aiMapAccessGranted: true } }));
     }
 
     if (isUnlocked) {
       hasPromptedRef.current = false;
     }
   }, [isUnlocked, navigate, openUnlockModal]);
+
+  useEffect(() => {
+    if (location.state?.aiMapAccessGranted) {
+      setShowAccessSuccess(true);
+      navigate(location.pathname, { replace: true, state: null });
+    }
+  }, [location.pathname, location.state, navigate]);
 
   const features = [
     {
@@ -80,7 +89,7 @@ const AIMapPage = () => {
           <div className="relative">
             <button
               type="button"
-              onClick={() => openUnlockModal(() => navigate("/ai-map"))}
+              onClick={() => openUnlockModal(() => navigate("/ai-map", { state: { aiMapAccessGranted: true } }))}
               className="inline-flex items-center gap-2 rounded-full bg-white text-[#111] px-6 py-3 text-sm font-semibold transition-all hover:-translate-y-0.5 active:translate-y-0"
             >
               Request Access
@@ -103,6 +112,22 @@ const AIMapPage = () => {
 
   return (
     <div className="space-y-12 sm:space-y-14">
+      {showAccessSuccess ? (
+        <div className="rounded-2xl border border-[#7DF5CA]/30 bg-[#7DF5CA]/10 px-5 py-4 text-white flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="font-semibold">Access granted</p>
+            <p className="text-sm text-white/75">Your AI Map is ready to use.</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowAccessSuccess(false)}
+            className="self-start rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white/80 hover:bg-white/10"
+          >
+            Dismiss
+          </button>
+        </div>
+      ) : null}
+
       <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#141414] via-[#0f1013] to-[#090b0c] px-6 sm:px-10 py-12 sm:py-16 shadow-[0_30px_120px_rgba(0,0,0,0.45)]">
         <div className="absolute -left-24 -top-24 h-64 w-64 bg-[#7DF5CA]/[0.12] blur-3xl" />
         <div className="absolute right-0 top-10 h-72 w-72 bg-white/10 blur-[140px]" />

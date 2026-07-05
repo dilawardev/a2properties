@@ -58,7 +58,7 @@ const EmbeddedProjectsMap = () => {
       navigate("/ai-map");
       return;
     }
-    openUnlockModal(() => navigate("/ai-map"));
+    openUnlockModal(() => navigate("/ai-map", { state: { aiMapAccessGranted: true } }));
   };
 
   const handleKeyDown = (event) => {

@@ -376,21 +376,14 @@ const SignatureShowcase = () => {
           
 
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
-            <div className="absolute left-4 top-4 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-[#1c1c1c]">
-              {copy.byBrand}
-            </div>
-
             {!!featured.location && (
-              <div className="absolute left-4 top-14 max-w-[90%] rounded-full bg-[#161616cc] px-3 py-1 text-xs font-semibold text-white">
+              <div className="absolute left-4 top-4 max-w-[90%] rounded-full bg-[#161616cc] px-3 py-1 text-xs font-semibold text-white">
                 {featured.location}
               </div>
             )}
           </div>
 
           <div className="space-y-5">
-            <p className="text-[11px] font-semibold tracking-[0.3em] text-white/50">
-              {copy.eyebrow}
-            </p>
             <h3 className="text-3xl font-semibold leading-tight text-white sm:text-5xl">
               {featured.title}
             </h3>
@@ -407,7 +400,7 @@ const SignatureShowcase = () => {
                 {copy.viewProperty}
               </Link>
               <Link
-                to="/properties"
+                to={`/property/${featured.slug}`}
                 className="inline-flex items-center justify-center rounded-full border border-white/20 bg-transparent px-6 py-3 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/10"
               >
                 {copy.moreInsights}
