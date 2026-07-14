@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+﻿import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as Motion from "framer-motion";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
@@ -219,9 +219,9 @@ const UnlockAiMapModal = ({ open, onClose, onSubmit, initialData }) => {
 
               {submitSuccess ? (
                 <div className="rounded-2xl border border-[#7DF5CA]/30 bg-[#7DF5CA]/10 p-5 text-white">
-                  <p className="text-lg font-semibold">Request received</p>
+                  <p className="text-lg font-semibold">Thank you!</p>
                   <p className="mt-2 text-sm leading-relaxed text-white/75">
-                    Our team will contact you.
+                    Thank you for using the A2 Properties AI Map. Your access has been unlocked successfully.
                   </p>
                   <button
                     type="button"
@@ -326,3 +326,4 @@ const UnlockAiMapModal = ({ open, onClose, onSubmit, initialData }) => {
 };
 
 export default UnlockAiMapModal;
+

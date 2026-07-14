@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+﻿import React, { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import GradientButton from "../../../components/GradientButton.jsx";
 import { blogs, getBlogBySlug, getBlogsForLocale } from "../../../data/blogs.js";
@@ -298,7 +298,7 @@ const BlogDetail = () => {
     <div className="py-12 space-y-10 text-white">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Link to="/blog" className="text-sm text-white/70 hover:text-white">
-          ← {t("nav.blog")}
+          â† {t("nav.blog")}
         </Link>
 
         <button
@@ -322,7 +322,7 @@ const BlogDetail = () => {
             </span>
           )}
           <span className="text-white/50">{post.displayDate || post.date}</span>
-          <span className="text-white/30">•</span>
+          <span className="text-white/30">â€¢</span>
           <span className="text-white/50">{post.readingTime}</span>
         </div>
 
@@ -339,7 +339,7 @@ const BlogDetail = () => {
         {post.author?.name && (
           <p className="text-sm text-white/60">
             By <span className="text-white/80">{post.author.name}</span>
-            {post.author.role ? ` · ${post.author.role}` : ""}
+            {post.author.role ? ` Â· ${post.author.role}` : ""}
           </p>
         )}
       </div>
@@ -450,10 +450,11 @@ const BlogDetail = () => {
             {t("sections.blog_detail_need_guidance_body")}
           </p>
         </div>
-        <GradientButton href="/properties">{t("buttons.explore_properties")}</GradientButton>
+        <GradientButton href="/properties" className="shrink-0 self-start sm:self-center whitespace-nowrap px-6 py-3">{t("buttons.explore_properties")}</GradientButton>
       </div>
     </div>
   );
 };
 
 export default BlogDetail;
+

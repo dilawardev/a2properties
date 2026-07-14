@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { submitGeneralLead } from "../api/leads.js";
@@ -215,11 +215,11 @@ const Footer = () => {
               <div className="flex flex-col text-xs">
                 <span className="font-bold text-white/80">4/5</span>
                 <div className="flex gap-0.5">
-                  <span className="text-yellow-400 text-sm">★</span>
-                  <span className="text-yellow-400 text-sm">★</span>
-                  <span className="text-yellow-400 text-sm">★</span>
-                  <span className="text-yellow-400 text-sm">★</span>
-                  <span className="text-white/40 text-sm">★</span>
+                  <span className="text-yellow-400 text-sm">â˜…</span>
+                  <span className="text-yellow-400 text-sm">â˜…</span>
+                  <span className="text-yellow-400 text-sm">â˜…</span>
+                  <span className="text-yellow-400 text-sm">â˜…</span>
+                  <span className="text-white/40 text-sm">â˜…</span>
                 </div>
               </div>
             </div>
@@ -232,7 +232,7 @@ const Footer = () => {
           {/* Left: contact text */}
           <div className="space-y-8 text-sm text-white/80">
             <div className="space-y-2">
-              <p className="text-base font-medium text-white">Realestate</p>
+              <p className="text-base font-medium text-white">A2 Properties</p>
             </div>
 
             <div className="space-y-1">
@@ -430,7 +430,7 @@ const Footer = () => {
 
         <div className="pt-6 text-center text-[11px] leading-relaxed text-white/60">
           <p className="text-xs text-white/50">
-            © {new Date().getFullYear()} A2 Properties. {t("footer.copyright")}
+            Â© {new Date().getFullYear()} A2 Properties. {t("footer.copyright")}
           </p>
         </div>
       </div>
@@ -439,3 +439,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
