@@ -13,6 +13,7 @@
     "blog": "المدونة",
     "properties": "العقارات",
     "contact": "تواصل معنا",
+    "faqs": "الأسئلة الشائعة",
     "navigation": "التنقل"
   },
   "hero": {
@@ -304,7 +305,11 @@
     "email_placeholder": "البريد الإلكتروني",
     "name_placeholder": "الاسم",
     "phone_placeholder": "رقم الهاتف",
-    "message_placeholder": "الرسالة"
+    "message_placeholder": "الرسالة",
+    "email_invalid": "أدخل بريداً إلكترونياً صحيحاً.",
+    "newsletter_submitting": "جارٍ الاشتراك...",
+    "newsletter_success": "تم الاشتراك بنجاح. سنبقيك على اطلاع.",
+    "newsletter_error": "تعذر الاشتراك. يرجى المحاولة مرة أخرى."
   },
   "newsletter": {
     "stay_in_loop": "ابقَ على اطلاع"

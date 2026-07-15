@@ -33,14 +33,30 @@ const ScrollToTop = ({ lenisRef }) => {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    if (hash) return;
-
     const lenis = lenisRef?.current;
+
+    if (hash) {
+      const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+      if (!target) return undefined;
+
+      const frameId = requestAnimationFrame(() => {
+        if (lenis) {
+          lenis.scrollTo(target, { offset: -80, duration: 1.5 });
+        } else {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+
+      return () => cancelAnimationFrame(frameId);
+    }
+
     if (lenis) {
       lenis.scrollTo(0, { immediate: true });
     } else {
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     }
+
+    return undefined;
   }, [hash, lenisRef, pathname]);
 
   return null;

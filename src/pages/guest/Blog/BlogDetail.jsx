@@ -1,9 +1,12 @@
-﻿import React, { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import GradientButton from "../../../components/GradientButton.jsx";
 import { blogs, getBlogBySlug, getBlogsForLocale } from "../../../data/blogs.js";
 import { getLocale } from "../../../hooks/useLocale.js";
 import { useTranslation } from "react-i18next";
+import { submitNewsletterSubscription } from "../../../api/notifications.js";
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
 
 const parseBlogDate = (value) => {
   const ts = Date.parse(value);
@@ -133,7 +136,8 @@ const BlockRenderer = ({ block }) => {
   }
 
   if (block.type === "callout") {
-    const internalTarget = typeof block.ctaTo === "string" ? block.ctaTo : null;
+    const buttonProps =
+      typeof block.ctaTo === "string" ? { to: block.ctaTo } : { href: block.ctaHref };
 
     return (
       <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-5 sm:p-6">
@@ -149,7 +153,10 @@ const BlockRenderer = ({ block }) => {
             )}
           </div>
           {block.ctaLabel && (
-            <GradientButton to={internalTarget} href={block.ctaHref}>
+            <GradientButton
+              {...buttonProps}
+              className="shrink-0 self-start whitespace-nowrap px-6 py-3 sm:self-center"
+            >
               {block.ctaLabel}
             </GradientButton>
           )}
@@ -248,7 +255,7 @@ const FAQ = ({ items = [], t }) => {
 
 const BlogDetail = () => {
   const { slug } = useParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const locale = getLocale();
   const list = useMemo(() => getBlogsForLocale(locale), [locale]);
   const post = useMemo(
@@ -256,6 +263,10 @@ const BlogDetail = () => {
     [slug, locale]
   );
   const [copied, setCopied] = useState(false);
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterSubmitting, setNewsletterSubmitting] = useState(false);
+  const [newsletterError, setNewsletterError] = useState("");
+  const [newsletterSuccess, setNewsletterSuccess] = useState(false);
 
   const toc = useMemo(
     () => post?.sections?.map(({ id, title }) => ({ id, title })) ?? [],
@@ -274,6 +285,37 @@ const BlogDetail = () => {
     const otherTag = sorted.filter((b) => b.tag !== post.tag);
     return [...sameTag, ...otherTag].slice(0, 3);
   }, [list, post]);
+
+  const handleNewsletterSubmit = async (event) => {
+    event.preventDefault();
+    setNewsletterError("");
+    setNewsletterSuccess(false);
+
+    const email = newsletterEmail.trim().toLowerCase();
+    if (!emailRegex.test(email)) {
+      setNewsletterError(t("forms.email_invalid"));
+      return;
+    }
+
+    setNewsletterSubmitting(true);
+    try {
+      await submitNewsletterSubscription({
+        email,
+        source: "blog_detail_sidebar",
+        language: i18n?.language || "en",
+        extraData: {
+          page: "blog_detail",
+          slug: post?.slug,
+        },
+      });
+      setNewsletterEmail("");
+      setNewsletterSuccess(true);
+    } catch (error) {
+      setNewsletterError(error?.message || t("forms.newsletter_error"));
+    } finally {
+      setNewsletterSubmitting(false);
+    }
+  };
 
   if (!post) {
     return (
@@ -297,9 +339,31 @@ const BlogDetail = () => {
   return (
     <div className="py-12 space-y-10 text-white">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <Link to="/blog" className="text-sm text-white/70 hover:text-white">
-          â† {t("nav.blog")}
-        </Link>
+        <nav
+          aria-label="Breadcrumb"
+          className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 shadow-sm"
+        >
+          <ol className="flex max-w-full items-center gap-2 text-sm font-medium text-white/55">
+            <li>
+              <Link
+                to="/blog"
+                className="text-white/80 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35 rounded"
+              >
+                {t("nav.blog")}
+              </Link>
+            </li>
+            <li className="text-white/30" aria-hidden="true">
+              /
+            </li>
+            <li
+              className="max-w-[58vw] truncate text-white sm:max-w-[520px]"
+              aria-current="page"
+              title={post.title}
+            >
+              {post.title}
+            </li>
+          </ol>
+        </nav>
 
         <button
           type="button"
@@ -322,7 +386,7 @@ const BlogDetail = () => {
             </span>
           )}
           <span className="text-white/50">{post.displayDate || post.date}</span>
-          <span className="text-white/30">â€¢</span>
+          <span className="text-white/30">•</span>
           <span className="text-white/50">{post.readingTime}</span>
         </div>
 
@@ -339,7 +403,7 @@ const BlogDetail = () => {
         {post.author?.name && (
           <p className="text-sm text-white/60">
             By <span className="text-white/80">{post.author.name}</span>
-            {post.author.role ? ` Â· ${post.author.role}` : ""}
+            {post.author.role ? ` · ${post.author.role}` : ""}
           </p>
         )}
       </div>
@@ -398,21 +462,36 @@ const BlogDetail = () => {
             <p className="text-sm text-white/70">
               {t("sections.blog_detail_stay_in_loop_body")}
             </p>
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="flex items-stretch gap-2"
-            >
-              <input
-                type="email"
-                placeholder={t("forms.email_placeholder")}
-                className="flex-1 rounded-xl bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-white/40 focus:outline-none"
-              />
-              <button
-                type="submit"
-                className="rounded-xl bg-gradient-to-r from-[#7DF5CA] to-white text-black font-semibold px-4 text-sm"
-              >
-                {t("sections.blog_detail_subscribe")}
-              </button>
+            <form onSubmit={handleNewsletterSubmit} className="space-y-2">
+              <div className="flex items-stretch gap-2">
+                <input
+                  type="email"
+                  value={newsletterEmail}
+                  onChange={(event) => {
+                    setNewsletterEmail(event.target.value);
+                    setNewsletterError("");
+                    setNewsletterSuccess(false);
+                  }}
+                  placeholder={t("forms.email_placeholder")}
+                  className="flex-1 rounded-xl bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-white/40 focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  disabled={newsletterSubmitting}
+                  className={[
+                    "rounded-xl bg-gradient-to-r from-[#7DF5CA] to-white px-4 text-sm font-semibold text-black",
+                    newsletterSubmitting ? "cursor-not-allowed opacity-70" : "",
+                  ].join(" ")}
+                >
+                  {newsletterSubmitting
+                    ? t("forms.newsletter_submitting")
+                    : t("sections.blog_detail_subscribe")}
+                </button>
+              </div>
+              {newsletterError ? <p className="text-xs text-red-300">{newsletterError}</p> : null}
+              {newsletterSuccess ? (
+                <p className="text-xs text-[#7DF5CA]">{t("forms.newsletter_success")}</p>
+              ) : null}
             </form>
             <p className="text-xs text-white/40">
               {t("sections.blog_detail_no_spam")}
@@ -450,11 +529,15 @@ const BlogDetail = () => {
             {t("sections.blog_detail_need_guidance_body")}
           </p>
         </div>
-        <GradientButton href="/properties" className="shrink-0 self-start sm:self-center whitespace-nowrap px-6 py-3">{t("buttons.explore_properties")}</GradientButton>
+        <GradientButton
+          to="/properties"
+          className="shrink-0 self-start whitespace-nowrap px-6 py-3 sm:self-center"
+        >
+          {t("buttons.explore_properties")}
+        </GradientButton>
       </div>
     </div>
   );
 };
 
 export default BlogDetail;
-

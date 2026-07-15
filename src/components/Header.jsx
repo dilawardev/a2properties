@@ -11,6 +11,7 @@ const navItems = [
   { key: "ai_map", href: "/ai-map" },
   { key: "blog", href: "/blog" },
   { key: "about", href: "/about" },
+  { key: "faqs", href: "/#faqs" },
 ];
 
 const projectLinks = [

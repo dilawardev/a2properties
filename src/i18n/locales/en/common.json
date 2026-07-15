@@ -13,6 +13,7 @@
     "blog": "Blog",
     "properties": "Properties",
     "contact": "Contact Us",
+    "faqs": "FAQs",
     "navigation": "Navigation"
   },
   "hero": {
@@ -138,10 +139,14 @@
     "disclaimer_simulated_body": "All listings, project details, floor plans, 3D renderings, images, location maps, prices, payment plans, and availability displayed on this website are provided for general guidance only. Information is sourced from developers, sellers, landlords, property portals, and other third parties involved in real estate in Dubai. While A2 Properties makes reasonable efforts to ensure information is accurate and up to date, we do not warrant or guarantee that every detail is complete, current, or error-free. Project launches, unit availability, pricing, specifications, and completion dates are subject to change without prior notice at the discretion of the developer or owner.",
     "disclaimer_no_investment_title": "No Financial, Legal, or Investment Advice",
     "disclaimer_no_investment_body": "Content on this website is for informational and marketing purposes only and should not be construed as legal, tax, mortgage, financial, or investment advice. The Dubai real estate market is dynamic and influenced by economic, regulatory, and market conditions. Prices, rental yields, ROI projections, service charges, DLD fees, agency commissions, and payment plans may vary and are subject to change. Area insights, market trends, and projected returns shown are estimates based on available data and do not constitute a guarantee of future performance. Buyers, sellers, tenants, and investors in Dubai real estate should conduct their own due diligence and obtain independent professional advice before making any transaction or financial commitment.",
+    "disclaimer_no_investment_list1": "Prices, rental yields, service charges, fees, and payment plans may change without notice.",
+    "disclaimer_no_investment_list2": "Projected returns, market trends, and area insights are estimates and are not guaranteed.",
+    "disclaimer_no_investment_list3": "Final terms are subject to signed agreements, due diligence, and applicable UAE laws and regulations.",
     "disclaimer_risk_heading": "Real Estate Risk Disclosure",
     "disclaimer_risk_body": "Investing in real estate in Dubai involves inherent risks, including but not limited to market fluctuations, liquidity risk, financing/interest rate risk, currency exchange risk, changes in government or RERA regulations, construction delays, and handover risk for off-plan properties. Past market performance, historical rental income, or capital appreciation does not guarantee future results. All transactions are subject to final signed contracts, legal due diligence, and compliance with applicable UAE laws and Dubai Land Department [DLD] regulations.",
     "disclaimer_corporate_heading": "Brokerage, Developers & Third-Party Offers",
     "disclaimer_corporate_body": "A2 Properties may promote properties, incentives, post-handover payment plans, and promotional offers provided by developers, master developers, and third-party partners. All such offers remain subject to the relevant provider's terms, conditions, eligibility criteria, and availability. Availability of properties and services depends on client documentation, jurisdiction, developer approval, mortgage eligibility, and regulatory compliance. A2 Properties is not liable for changes made by developers or third parties after publication.",
+    "disclaimer_restrictions": "Property and service availability may depend on eligibility, documentation, jurisdiction, developer approval, and regulatory requirements.",
     "disclaimer_regulatory_heading": "Regulatory Compliance",
     "disclaimer_regulatory_body": "A2 Properties operates in accordance with Dubai Land Department [DLD] and Real Estate Regulatory Agency [RERA] guidelines. RERA ORN: 56706 | Brokerage License No: 1562824.",
     "disclaimer_related_heading": "For official confirmation of any Dubai property listing, pricing, payment plan, or availability, and for personalized real estate in Dubai advisory services, please contact an A2 Properties advisor before proceeding.",
@@ -300,7 +305,11 @@
     "email_placeholder": "Email address",
     "name_placeholder": "Your name",
     "phone_placeholder": "Phone",
-    "message_placeholder": "Message"
+    "message_placeholder": "Message",
+    "email_invalid": "Enter a valid email address.",
+    "newsletter_submitting": "Subscribing...",
+    "newsletter_success": "Subscribed successfully. We will keep you updated.",
+    "newsletter_error": "Subscription failed. Please try again."
   },
   "newsletter": {
     "stay_in_loop": "Stay in the loop"

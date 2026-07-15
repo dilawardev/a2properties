@@ -144,7 +144,7 @@ const Footer = () => {
               <img
                 src="/assets/icons/Footer/linkedin.svg"
                 alt="LinkedIn"
-                className="h-5 w-5"
+                className="block h-5 w-5 min-h-5 min-w-5 object-contain"
               />
             </a>
             <a
@@ -155,7 +155,7 @@ const Footer = () => {
               <img
                 src="/assets/icons/Footer/facebook.svg"
                 alt="Facebook"
-                className="h-5 w-5"
+                className="block h-5 w-5 min-h-5 min-w-5 object-contain"
               />
             </a>
             <a
@@ -166,7 +166,7 @@ const Footer = () => {
               <img
                 src="/assets/icons/Footer/tiktok.svg"
                 alt="TikTok"
-                className="h-5 w-5"
+                className="block h-5 w-5 min-h-5 min-w-5 object-contain"
               />
             </a>
             <a
@@ -177,7 +177,7 @@ const Footer = () => {
               <img
                 src="/assets/icons/Footer/youtube.svg"
                 alt="YouTube"
-                className="h-5 w-5"
+                className="block h-5 w-5 min-h-5 min-w-5 object-contain"
               />
             </a>
             <a
@@ -188,7 +188,7 @@ const Footer = () => {
               <img
                 src="/assets/icons/Footer/instagram.svg"
                 alt="Instagram"
-                className="h-5 w-5"
+                className="block h-5 w-5 min-h-5 min-w-5 object-contain"
               />
             </a>
             <a
@@ -199,7 +199,7 @@ const Footer = () => {
               <img
                 src="/assets/icons/Footer/linktree.svg"
                 alt="Linktree"
-                className="h-5 w-5"
+                className="block h-5 w-5 min-h-5 min-w-5 object-contain"
               />
             </a>
           </div>
@@ -215,11 +215,11 @@ const Footer = () => {
               <div className="flex flex-col text-xs">
                 <span className="font-bold text-white/80">4/5</span>
                 <div className="flex gap-0.5">
-                  <span className="text-yellow-400 text-sm">â˜…</span>
-                  <span className="text-yellow-400 text-sm">â˜…</span>
-                  <span className="text-yellow-400 text-sm">â˜…</span>
-                  <span className="text-yellow-400 text-sm">â˜…</span>
-                  <span className="text-white/40 text-sm">â˜…</span>
+                  <span className="text-yellow-400 text-sm">&#9733;</span>
+                  <span className="text-yellow-400 text-sm">&#9733;</span>
+                  <span className="text-yellow-400 text-sm">&#9733;</span>
+                  <span className="text-yellow-400 text-sm">&#9733;</span>
+                  <span className="text-white/40 text-sm">&#9733;</span>
                 </div>
               </div>
             </div>
@@ -430,7 +430,7 @@ const Footer = () => {
 
         <div className="pt-6 text-center text-[11px] leading-relaxed text-white/60">
           <p className="text-xs text-white/50">
-            Â© {new Date().getFullYear()} A2 Properties. {t("footer.copyright")}
+            &copy; {new Date().getFullYear()} A2 Properties. {t("footer.copyright")}
           </p>
         </div>
       </div>
@@ -439,4 +439,7 @@ const Footer = () => {
 };
 
 export default Footer;
+
+
+
 
