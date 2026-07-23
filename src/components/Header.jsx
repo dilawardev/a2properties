@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import GradientButton from "./GradientButton.jsx";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getLocale, setLocale } from "../hooks/useLocale";
-import { useAiMapLock } from "../hooks/useAiMapLock.jsx";
 
 const navItems = [
   { key: "home", href: "/" },
@@ -20,40 +19,9 @@ const projectLinks = [
   { label: "Rent", href: "/properties?type=RENT" },
 ];
 
-const NavLockBadge = ({ locked }) => (
-  <span
-    className={[
-      "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold",
-      locked
-        ? "border-white/25 bg-white/5 text-white/70"
-        : "border-emerald-300/40 bg-emerald-300/10 text-emerald-100",
-    ].join(" ")}
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-3.5 w-3.5"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
-      <rect x="6" y="11" width="12" height="9" rx="2" ry="2" />
-      <path
-        d="M9 11V8a3 3 0 0 1 6 0v3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      {!locked && <path d="M14 11c.15-1.6-.35-3-2-3" strokeLinecap="round" />}
-    </svg>
-    <span>{locked ? "Locked" : "Live"}</span>
-  </span>
-);
-
 const Header = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const location = useLocation();
-  const { isUnlocked: isAiMapUnlocked, openUnlockModal } = useAiMapLock();
   const currentLocale = getLocale();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -172,15 +140,6 @@ const Header = () => {
       return;
     }
 
-    if (isAiMap && !isAiMapUnlocked) {
-      event.preventDefault();
-      openUnlockModal(() => {
-        after();
-        navigate(item.href, { state: { aiMapAccessGranted: true } });
-      });
-      return;
-    }
-
     after();
   };
 
@@ -214,7 +173,6 @@ const Header = () => {
             {navItems.map((item) => {
               const className =
                 "relative transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 rounded-md";
-              const isAiMap = item.key === "ai_map";
               const isProjects = item.key === "offplan";
               const label = (
                 <span className="flex items-center gap-2">
@@ -235,7 +193,6 @@ const Header = () => {
                       />
                     </svg>
                   )}
-                  {isAiMap && <NavLockBadge locked={!isAiMapUnlocked} />}
                 </span>
               );
 
@@ -391,12 +348,10 @@ const Header = () => {
             <div className="flex flex-col p-6">
               <nav className="space-y-2 mb-6">
                 {navItems.map((item) => {
-                  const isAiMap = item.key === "ai_map";
                   const isProjects = item.key === "offplan";
                   const label = (
                     <span className="flex items-center gap-2">
                       <span>{t(`nav.${item.key}`)}</span>
-                      {isAiMap && <NavLockBadge locked={!isAiMapUnlocked} />}
                     </span>
                   );
 
